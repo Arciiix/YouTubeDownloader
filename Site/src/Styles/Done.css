@@ -1,0 +1,22 @@
+.alert {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 60vw;
+}
+.alertHeader {
+  font-weight: bold;
+  font-size: 50px;
+}
+.alertBody {
+  font-size: 30px;
+}

@@ -1,0 +1,29 @@
+body {
+  overflow: hidden;
+  background-color: #7ab1ff;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 99vw;
+  height: 99vh;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+}
+.inputs {
+  display: flex;
+  flex-direction: row;
+}
+.url {
+  width: 40vw;
+}
+.extension {
+  margin-left: 15px;
+  width: 100px;
+  height: 48px;
+}
+.submit {
+  margin-top: 15px;
+  width: calc(40vw + 115px);
+}

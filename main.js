@@ -12,7 +12,7 @@ const options = {
 };
 
 let mainWindow;
-const pathToIcon = path.join(__dirname, "img", "icon.ico");
+const pathToIcon = path.join(__dirname, "icon.ico");
 
 //Only for development - live reload
 require("electron-reload")(__dirname);
@@ -39,7 +39,7 @@ app.on("ready", () => {
   //Load the site into the window
   mainWindow.loadURL(
     url.format({
-      pathname: path.join(__dirname, "index.html"),
+      pathname: path.join(__dirname, "build", "index.html"),
       protocol: "file",
     })
   );
