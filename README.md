@@ -20,5 +20,5 @@ You'd need Electron and React installed on it additionally.
 1. Build the React App
    `cd Site`
    `npm run build`
-2. Replace the paths in index.html to the relative ones (replace every **_/_** to **\***./**\*** (_for e.g. change /chunk-xxxxxxx.js to ./chunk-xxxxxxx.js_)
+2. Replace the paths in index.html to the relative ones (replace every / to ./ (_for e.g. change /chunk-xxxxxxx.js to ./chunk-xxxxxxx.js_)
 3. Build the electron app, use [electron-packager](https://www.npmjs.com/package/electron-packager) for example.
