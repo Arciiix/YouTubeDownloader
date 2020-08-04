@@ -12,7 +12,7 @@ const options = {
 };
 
 let mainWindow;
-//const pathToIcon = path.join(__dirname, 'img','icon.ico')
+const pathToIcon = path.join(__dirname, "img", "icon.ico");
 
 //Only for development - live reload
 require("electron-reload")(__dirname);
@@ -30,7 +30,7 @@ app.on("ready", () => {
     height: height,
     minWidth: options.minWidth,
     minHeight: options.minHeight,
-    //icon: pathToIcon, DEV
+    icon: pathToIcon,
     webPreferences: {
       nodeIntegration: true,
     },
