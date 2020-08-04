@@ -1,0 +1,14 @@
+{
+  "name": "youtubedownloader",
+  "version": "1.0.0",
+  "description": "A simple app which can download videos from YouTube",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Arciiix",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^9.1.2"
+  }
+}
