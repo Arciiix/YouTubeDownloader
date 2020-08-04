@@ -3,7 +3,7 @@
 ## A simple app which can download videos from YouTube built with Electron and React
 
 - Can download videos for now in two extensions - MP3 and MP4
-- All is running on your computer - the server is included in the app
+- All runs only on your computer - the server is included in the app
 
 ### Warning
 
@@ -11,7 +11,7 @@ For now, the app has a lot of bugs, so you can report them to me or create a pul
 
 ### About the app
 
-The app requires **[Node.js](https://nodejs.org/)**, and is currently only for windows. It uses [**youtube-dl**](https://www.npmjs.com/package/youtube-dl) and [**ffmpeg**](https://ffmpeg.org/) (included in the repo).
+The app requires **[Node.js](https://nodejs.org/)** and [**ffmpeg**](https://ffmpeg.org/), and is currently only for windows. It also uses [**youtube-dl**](https://www.npmjs.com/package/youtube-dl).
 
 ## How to run/build it on your computer?
 

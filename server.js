@@ -11,8 +11,10 @@ const sanitize = require("sanitize-filename");
 const tmp = require("tmp");
 const path = require("path");
 
+const shell = require("shelljs");
+const ffmpegPath = shell.which("ffmpeg").stdout;
 const ffmpeg = require("fluent-ffmpeg");
-ffmpeg.setFfmpegPath("./ffmpeg.exe");
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 const PORT = 34243;
 

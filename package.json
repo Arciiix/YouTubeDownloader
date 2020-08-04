@@ -19,6 +19,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "node-fetch": "^2.6.0",
     "sanitize-filename": "^1.6.3",
+    "shelljs": "^0.8.4",
     "tmp": "^0.2.1",
     "ytdl-core": "^3.2.0"
   }
