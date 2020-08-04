@@ -1,7 +1,9 @@
 const electron = require("electron");
-const { app, BrowserWindow, screen } = electron;
+const { app, BrowserWindow, screen, ipcMain, dialog } = electron;
 const url = require("url");
 const path = require("path");
+
+const serverIp = "http://localhost:34243";
 
 //Server
 require("./server");
@@ -50,5 +52,22 @@ app.on("ready", () => {
   mainWindow.setMenu(null);
 
   //DEV - Open dev tools
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
+
+  //When the download process begins, create a indeterminate progress bar on the icon
+  ipcMain.on("downloading", () => {
+    mainWindow.setProgressBar(2);
+  });
+
+  //When the video has been downloaded, flash the icon on the taskbar and remove the progress bar
+  ipcMain.on("downloaded", () => {
+    mainWindow.setProgressBar(-1);
+    mainWindow.flashFrame(true);
+  });
+
+  //When user clicks on the application icon (so enters it)
+  mainWindow.on("focus", () => {
+    //Stop flashing the icon
+    mainWindow.flashFrame(false);
+  });
 });

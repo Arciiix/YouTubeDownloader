@@ -4,28 +4,32 @@ import { IoMdArrowRoundBack } from "react-icons/io/";
 
 import "../Styles/Downloading.css";
 
+const ipcRenderer = window.require("electron").ipcRenderer;
+
 class Downloading extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      progress: 12,
-    };
+    this.interval = null;
   }
 
   componentDidMount() {
-    //DEV
-    setTimeout(() => {
-      this.onDownloadEnd();
+    ipcRenderer.send("downloading");
+    this.interval = setInterval(async () => {
+      await this.checkForStatus();
     }, 1000);
   }
 
-  onDownloadEnd() {
-    this.props.changePage.bind(this.props.that, 2)();
+  async checkForStatus() {
+    let request = await fetch(`${this.props.ip}/isDone`);
+    if ((await request.text()) == "true") {
+      clearInterval(this.interval);
+      ipcRenderer.send("downloaded");
+      this.props.changePage.bind(this.props.that, 2)();
+    }
   }
 
   back() {
-    //DEV
-    //Stop downloading the file
+    //TODO - stop downloading the file
     this.props.changePage.bind(this.props.that, 0)();
   }
 
@@ -36,8 +40,7 @@ class Downloading extends React.Component {
           <IoMdArrowRoundBack />
         </div>
         <div className="progress">
-          <span className="progressText">{this.state.progress}%</span>
-          <LinearProgress variant="determinate" value={this.state.progress} />
+          <LinearProgress variant="indeterminate" />
         </div>
       </div>
     );
