@@ -1,6 +1,8 @@
 import React from "react";
-import { LinearProgress } from "@material-ui/core";
-import { IoMdArrowRoundBack } from "react-icons/io/";
+import { LinearProgress, Badge } from "@material-ui/core";
+import { IoMdArrowRoundBack, IoMdCloudDownload } from "react-icons/io/";
+import { ToastContainer } from "react-toastify";
+import io from "socket.io-client";
 
 import "../Styles/Downloading.css";
 
@@ -9,34 +11,42 @@ const ipcRenderer = window.require("electron").ipcRenderer;
 class Downloading extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      previousAlertTitle: "",
+    };
     this.interval = null;
+    this.socket = io(this.props.ip);
   }
 
-  componentDidMount() {
-    ipcRenderer.send("downloading");
-    this.interval = setInterval(async () => {
-      await this.checkForStatus();
-    }, 1000);
-  }
-
-  async checkForStatus() {
-    let request = await fetch(`${this.props.ip}/isDone`);
-    if ((await request.text()) == "true") {
-      clearInterval(this.interval);
-      ipcRenderer.send("downloaded");
-      this.props.changePage.bind(this.props.that, 2)();
-    }
-  }
-
-  back() {
-    //TODO - stop downloading the file
+  goBack() {
     this.props.changePage.bind(this.props.that, 0)();
   }
 
   render() {
     return (
       <div className="container">
-        <div className="icon" onClick={this.back.bind(this)}>
+        <div className="badge">
+          <Badge
+            badgeContent={this.props.currentlyDownloading}
+            showZero
+            color="primary"
+          >
+            <IoMdCloudDownload />
+          </Badge>
+        </div>
+        <ToastContainer
+          className="toastContainer"
+          position="top-right"
+          autoClose={2500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <div className="icon" onClick={this.goBack.bind(this)}>
           <IoMdArrowRoundBack />
         </div>
         <div className="progress">

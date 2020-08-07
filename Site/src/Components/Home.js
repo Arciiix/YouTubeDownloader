@@ -6,11 +6,19 @@ import {
   Select,
   MenuItem,
   Button,
+  Badge,
 } from "@material-ui/core";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { IoMdCloudDownload } from "react-icons/io";
+import io from "socket.io-client";
 
 import "../Styles/Home.css";
 
 const dialog = window.require("electron").remote.dialog;
+const ipcRenderer = window.require("electron").ipcRenderer;
+
+let lastAlertDate;
 
 class Home extends React.Component {
   constructor(props) {
@@ -20,6 +28,34 @@ class Home extends React.Component {
       extension: "mp3",
       error: false,
     };
+
+    this.socket = io(this.props.ip);
+  }
+
+  componentDidMount() {
+    this.socket.on("downloaded", (data) => {
+      this.makeAToast(data.title);
+      //Update the current amount of queue
+      this.props.updateCurrentlyDownloading.bind(this.props.that, data.left)();
+      //If the download queue is done, move to the done page
+      if (data.isDone) {
+        ipcRenderer.send("downloaded");
+        this.props.changePage.bind(this.props.that, 2)();
+      }
+    });
+  }
+
+  makeAToast(title) {
+    if (lastAlertDate + 2500 > new Date().getTime()) return;
+    toast.info("☑️ Pobrano " + title, {
+      position: "top-right",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    lastAlertDate = new Date().getTime();
   }
 
   async download() {
@@ -36,8 +72,17 @@ class Home extends React.Component {
     );
     if (request.status === 200) {
       let response = await request.json();
-      this.props.title.bind(this.props.that, response.title)();
-      this.props.path.bind(this.props.that, response.path)();
+      this.props.updatePath.bind(this.props.that, response.path)();
+
+      //Update the queue length on the site
+      this.props.updateCurrentlyDownloading.bind(
+        this.props.that,
+        this.props.currentlyDownloading + 1
+      )();
+
+      //Make the progress bar on the icon
+      ipcRenderer.send("downloading");
+
       this.props.changePage.bind(this.props.that, 1)();
     } else {
       this.setState({ error: true });
@@ -56,9 +101,36 @@ class Home extends React.Component {
     }
   }
 
+  goToDownloadingPage() {
+    if (this.props.currentlyDownloading > 0) {
+      this.props.changePage.bind(this.props.that, 1)();
+    }
+  }
+
   render() {
     return (
       <div className="container">
+        <div className="badge" onClick={this.goToDownloadingPage.bind(this)}>
+          <Badge
+            badgeContent={this.props.currentlyDownloading}
+            showZero
+            color="primary"
+          >
+            <IoMdCloudDownload />
+          </Badge>
+        </div>
+        <ToastContainer
+          className="toastContainer"
+          position="top-right"
+          autoClose={2500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <div className="inputs">
           <div className="url">
             <TextField

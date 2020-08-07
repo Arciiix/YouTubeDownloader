@@ -11,7 +11,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       currPage: 0,
-      fileName: "",
+      currentlyDownloading: 0,
       path: "",
     };
   }
@@ -23,17 +23,26 @@ class App extends React.Component {
             that={this}
             changePage={this.changePage}
             ip={serverIp}
-            title={(title) => {
-              this.setState({ fileName: title });
-            }}
-            path={(path) => {
+            currentlyDownloading={this.state.currentlyDownloading}
+            updatePath={(path) => {
               this.setState({ path: path });
+            }}
+            updateCurrentlyDownloading={(currentlyDownloading) => {
+              this.setState({ currentlyDownloading: currentlyDownloading });
             }}
           />
         );
       case 1:
         return (
-          <Downloading that={this} changePage={this.changePage} ip={serverIp} />
+          <Downloading
+            that={this}
+            changePage={this.changePage}
+            ip={serverIp}
+            currentlyDownloading={this.state.currentlyDownloading}
+            updateCurrentlyDownloading={(currentlyDownloading) => {
+              this.setState({ currentlyDownloading: currentlyDownloading });
+            }}
+          />
         );
       case 2:
         return (
