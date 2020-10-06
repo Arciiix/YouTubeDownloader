@@ -9,7 +9,7 @@
   "author": "Arciiix",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^9.1.2"
+    "electron": "^9.3.1"
   },
   "dependencies": {
     "async": "^3.2.0",
